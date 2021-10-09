@@ -1,46 +1,99 @@
-//1. Створити функцію, яка на вхід одержує текст (тип char*) і перетворює його: відкидає повторні пробіли. Функція повинна повертати кількість відкинутих пробілів. Текст передавати у функцію по посиланню. Перезавантажити операцію "<<" виведення перетвореного рядка, в якій викликати створену функцію.//
 #include <iostream>
-#include <string>
-#include <string.h>
+#include "CNum.hpp"
+#include "polinom.hpp"
 using namespace std;
 
-int cnt(char *text,int n){
-  int q=0,count=0;
-  for(int i=0;i<n;i++){
-    if(text[i]==' ' && q==0){
-      q=1;
-      cout<<text[i];
-    }
-    else if(text[i]==' ' && q==1){
-      count++;
-    }
-    else if(text[i]!=' '&& q==1){
-      q=0;
-      cout<<text[i];
-    }
-    else cout<<text[i];
-  }
-  return count;
-}
-
-ostream& operator <<(ostream& out, char* string){
-    cnt(string, strlen(string));
-    
-    out << string << endl;
-    return out;
-}
 
 
-int main()
-{
-  cout<<"Введіть текст: "<<endl;
-  char* t = new char[255];
-  
-    cin >> t;
+int main() {
+    Polinom polinom = *new Polinom();
+    int len;
     
-    cout << t;
+    cout << "Input length of your polinom: ";
+    cin >> len;
+    polinom.input(len);
+    cout << "Your polinom: " << endl;
+    polinom.output();
     
     
-    delete [] t;
-//cout<<t1;
+    while (true) {
+        int userChoice;
+        Polinom secondNumber = *new Polinom();
+        CNumber::CNum CNumber;
+        CNumber::CNum CNumberB;
+        
+        cout << "\nChoice action: \
+        \n1)Adding \
+        \n2)Subtraction \
+        \n3)Multiplication \
+        \n4)Value in point x \
+        \n5)Value in point (x + b) \
+        \n0)Stop \
+        \n--> ";
+        
+        cin >> userChoice;
+        
+        switch (userChoice) {
+            case 1:
+                cout << "Input length of your second polinom: ";
+                cin >> len;
+                secondNumber.input(len);
+                
+                polinom.output();
+                cout << endl << "    +      " << endl;
+                secondNumber.output();
+                cout << endl << "    =      " << endl;
+                (polinom + secondNumber).output();
+                
+                break;
+            case 2:
+                cout << "Input length of your second polinom: ";
+                cin >> len;
+                secondNumber.input(len);
+                
+                polinom.output();
+                cout << endl << "    -      " << endl;
+                secondNumber.output();
+                cout << endl << "    =      " << endl;
+                (polinom - secondNumber).output();
+                
+                break;
+            case 3:
+                cout << "Input length of your second polinom: ";
+                cin >> len;
+                secondNumber.input(len);
+                
+                polinom.output();
+                cout << endl << "    *      " << endl;
+                secondNumber.output();
+                cout << endl << "    =      " << endl;
+                (polinom * secondNumber).output();
+                
+                break;
+            case 4:
+                cout << "Input point x: " << endl;
+                CNumber.input();
+                CNumber = polinom.getValueInPoint(CNumber);
+                
+                cout << "Result: (" << CNumber.realPart << " + " << CNumber.imaginaryPart << "i);";
+                
+                break;
+            case 5:
+                cout << "Input point x: " << endl;
+                CNumber.input();
+                cout << endl << "Input point B: " << endl;
+                CNumberB.input();
+                CNumber = polinom.getValueInPoint(CNumber, CNumberB);
+                
+                cout << "Result: (" << CNumber.realPart << " + " << CNumber.imaginaryPart << "i);";
+                
+                break;
+            case 0:
+                return 0;
+            default:
+                cout << "Unkomon command";
+                break;
+        }
+    }
+    
 }
