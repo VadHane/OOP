@@ -188,14 +188,14 @@ Polinom Polinom::operator *(Polinom secondAddition){ // !!!
     
     
     for(int i = 0; i <= maxPower; i++){
-        CNum number = *new CNum(1, 1);
+        CNum number = *new CNum(0, 0);
         bool wasEdit = false;
         
         while(tmpIter){
             int power = tmp.powers.get(tmpIterPower++);
             
             if(power == i){
-                number = number * tmp.allCoeff.get(tmpIter++);
+                number = number + tmp.allCoeff.get(tmpIter++);
                 wasEdit = true;
                 continue;
             }

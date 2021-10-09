@@ -101,7 +101,7 @@ CNum CNum::operator *(CNum secondAddition){
 }
 
 CNum CNum::operator *(double secondAddition){
-    return *new CNum(realPart * secondAddition + imaginaryPart * secondAddition);
+    return *new CNum(realPart * secondAddition, imaginaryPart * secondAddition);
 }
 
 bool CNum::operator ==(CNum secondAddition) {
