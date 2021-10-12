@@ -2,6 +2,7 @@
 #include "list.hpp"
 #include "CNum.hpp"
 #include <iostream>
+#include <typeinfo>
 
 using namespace std;
 using namespace CNumber;
@@ -13,16 +14,39 @@ Polinom::Polinom(){
     power = 0;
 }
 
+Polinom::Polinom(const List<CNum> &secondOperand){
+    allCoeff = secondOperand;
+    
+    Iterator<CNum> iter = *new Iterator<CNum>(allCoeff);
+    
+    while (iter) {
+        powers.add((iter++)->position);
+        power++;
+    }
+}
+
+Polinom::Polinom(const Polinom &secondOperand){
+    allCoeff = secondOperand.allCoeff;
+    powers = secondOperand.powers;
+    
+    power = secondOperand.power;
+}
+
 /*
 Polinom::~Polinom(){
     //delete &allCoeff;
 }
 */
  
-void Polinom::input(int lenOfList){
+void Polinom::input(){
+    int lenOfList;
+    cout << "Input length of your second polinom: ";
+    cin >> lenOfList;
+    
     cout << "Input your polinom: " << endl;
     for (int i = 0; i <lenOfList; i++) {
         CNum item;
+        cout << "Input your complex number for x^" << i << ": " << endl;
         item.input();
         allCoeff.add(item);
         powers.add(power);
@@ -31,7 +55,8 @@ void Polinom::input(int lenOfList){
 }
 
 std::ostream& operator <<(std::ostream& out, const CNum &num){
-    out << "(" << num.realPart << " + " << num.imaginaryPart << "i)";
+    if(num.imaginaryPart >= 0) out << "(" << num.realPart << " + " << num.imaginaryPart << "i)";
+    else out << "(" << num.realPart << " - " << num.imaginaryPart * - 1<< "i)";
     return out;
 }
 
@@ -41,12 +66,32 @@ void Polinom::add(CNum number){
     power++;
 }
 
-void Polinom::add(CNumber::CNum number, int power){
-    allCoeff.add(number);
-    powers.add(power);
+void add(Polinom &polinom, CNumber::CNum number, int power){
+    polinom.allCoeff.add(number);
+    polinom.powers.add(power);
 }
 
-void Polinom::output(){
+Polinom operator +(const Polinom &firstAddition, const Polinom &secondAddition){
+    Polinom result = *new Polinom();
+    SingleLinkList::Iterator<CNumber::CNum> firstIter = *new SingleLinkList::Iterator<CNumber::CNum>(firstAddition.allCoeff);
+    SingleLinkList::Iterator<CNumber::CNum> secondIter = *new SingleLinkList::Iterator<CNumber::CNum>(secondAddition.allCoeff);
+    
+    while (firstIter) {
+        if (secondIter) {
+            result.add((firstIter++)->value + (secondIter++)->value);
+        } else {
+            result.add((firstIter++)->value);
+        }
+    }
+    
+    while (secondIter) {
+        result.add((secondIter++)->value);
+    }
+        
+    return result;
+}
+
+void Polinom::output() {
     Iterator<int> iterPow = *new Iterator<int>(powers);
     Iterator<CNum> iter = *new Iterator<CNum>(allCoeff);
     
@@ -105,27 +150,8 @@ CNum Polinom::getValueInPoint(CNum pointX, CNum pointB){
     return result;
 }
 
-Polinom Polinom::operator +(Polinom secondAddition){
-    Polinom result = *new Polinom();
-    Iterator<CNum> firstIter = *new Iterator<CNum>(allCoeff);
-    Iterator<CNum> secondIter = *new Iterator<CNum>(secondAddition.allCoeff);
-    
-    while (firstIter) {
-        if (secondIter) {
-            result.add((firstIter++)->value + (secondIter++)->value);
-        } else {
-            result.add((firstIter++)->value);
-        }
-    }
-    
-    while (secondIter) {
-        result.add((secondIter++)->value);
-    }
-        
-    return result;
-}
 
-Polinom Polinom::operator -(Polinom secondAddition){
+Polinom Polinom::operator -(const Polinom &secondAddition){
     Polinom result = *new Polinom();
     Iterator<CNum> firstIter = *new Iterator<CNum>(allCoeff);
     Iterator<CNum> secondIter = *new Iterator<CNum>(secondAddition.allCoeff);
@@ -148,7 +174,7 @@ Polinom Polinom::operator -(Polinom secondAddition){
     return result;
 }
 
-Polinom Polinom::operator *(Polinom secondAddition){ // !!!
+Polinom Polinom::operator *(const Polinom &secondAddition){ // !!!
     Polinom tmp = *new Polinom();
     
     Iterator<CNum> firstIter = *new Iterator<CNum>(allCoeff);
@@ -161,7 +187,7 @@ Polinom Polinom::operator *(Polinom secondAddition){ // !!!
         int power = powers.get(firstIterPower++);
         
         while(secondIter){
-            tmp.add(firstElement * secondAddition.allCoeff.get(secondIter++), power + secondAddition.powers.get(secondIterPower++));
+            ::add(tmp, firstElement * secondAddition.allCoeff.get(secondIter++), power + secondAddition.powers.get(secondIterPower++));
         }
         
         secondIter.moveToStart();
@@ -214,7 +240,7 @@ Polinom Polinom::operator *(Polinom secondAddition){ // !!!
     return result;
 }
 
-bool Polinom::operator ==(Polinom secondAddition){
+bool Polinom::operator ==(const Polinom &secondAddition){
     Iterator<CNum> firstIter = *new Iterator<CNum>(allCoeff);
     Iterator<CNum> secondIter = *new Iterator<CNum>(secondAddition.allCoeff);
     
@@ -235,3 +261,17 @@ bool Polinom::operator ==(Polinom secondAddition){
     
     return true;
 }
+
+Polinom& Polinom::operator =(const Polinom &secondOperand){
+    if(typeid(allCoeff.getFirstElement()->value) == typeid(secondOperand.allCoeff.getFirstElement()->value)) {
+    
+    allCoeff = secondOperand.allCoeff;
+    powers = secondOperand.powers;
+    
+    power = secondOperand.power;
+    }
+    
+    return *this;
+}
+
+

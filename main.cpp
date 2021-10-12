@@ -7,11 +7,8 @@ using namespace std;
 
 int main() {
     Polinom polinom = *new Polinom();
-    int len;
     
-    cout << "Input length of your polinom: ";
-    cin >> len;
-    polinom.input(len);
+    polinom.input();
     cout << "Your polinom: " << endl;
     polinom.output();
     
@@ -35,10 +32,7 @@ int main() {
         
         switch (userChoice) {
             case 1:
-                cout << "Input length of your second polinom: ";
-                cin >> len;
-                secondNumber.input(len);
-                
+                secondNumber.input();
                 polinom.output();
                 cout << endl << "    +      " << endl;
                 secondNumber.output();
@@ -47,9 +41,7 @@ int main() {
                 
                 break;
             case 2:
-                cout << "Input length of your second polinom: ";
-                cin >> len;
-                secondNumber.input(len);
+                secondNumber.input();
                 
                 polinom.output();
                 cout << endl << "    -      " << endl;
@@ -59,9 +51,7 @@ int main() {
                 
                 break;
             case 3:
-                cout << "Input length of your second polinom: ";
-                cin >> len;
-                secondNumber.input(len);
+                secondNumber.input();
                 
                 polinom.output();
                 cout << endl << "    *      " << endl;

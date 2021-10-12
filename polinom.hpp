@@ -14,13 +14,19 @@ class Polinom{
 public:
     Polinom();
     
+    Polinom(const SingleLinkList::List<CNumber::CNum> &secondOperand);
+    
+    Polinom(const Polinom &secondOperand);
+    
+    
+    
     //~Polinom();
     
-    void input(int lenOfList);
+    void input(); 
     
     void add(CNumber::CNum number);
     
-    void add(CNumber::CNum number, int power);
+    friend void add(Polinom &, CNumber::CNum number, int power);
     
     void output();
     
@@ -30,13 +36,17 @@ public:
     
     CNumber::CNum getValueInPoint(CNumber::CNum pointX, CNumber::CNum pointB);
     
-    Polinom operator +(Polinom);
+    friend Polinom operator +(const Polinom &, const Polinom &);
     
-    Polinom operator -(Polinom);
+    Polinom operator -(const Polinom &);
     
-    Polinom operator *(Polinom);
+    Polinom operator *(const Polinom &);
     
-    bool operator ==(Polinom);
+    bool operator ==(const Polinom &);
+    
+    Polinom& operator =(const Polinom &);
 };
+
+
 
 #endif

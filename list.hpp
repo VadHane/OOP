@@ -26,7 +26,7 @@ public:
     
     Iterator(element<T> *firstElement, element<T> *someElementAsIterator);
     
-    Iterator(List<T> &list, int iteratorPosition = 0);
+    Iterator(const List<T> &list, int iteratorPosition = 0);
     
     
     element<T>* getIterator();
@@ -62,11 +62,13 @@ public:
     
     void add(T value);
     
-    T get(int position);
+    T get(int position) const;
     
-    T get(Iterator<T> iterator);
+    T get(Iterator<T> iterator) const;
     
-    element<T>* getFirstElement();
+    element<T>* getFirstElement() const;
+    
+    bool operator =(List);
 };
 
 // Functions for iterator
@@ -83,7 +85,7 @@ template <typename T> Iterator<T>::Iterator(element<T> *firstElement, element<T>
     position = someElementAsIterator->position;
 }
 
-template <typename T> Iterator<T>::Iterator(List<T> &list, int iteratorPosition){
+template <typename T> Iterator<T>::Iterator(const List<T> &list, int iteratorPosition){
     iterator = list.getFirstElement();
     firstElementOfList = iterator;
     for (int i = 0; i < iteratorPosition; i++) {
@@ -186,7 +188,7 @@ template <typename T> void List<T>::add(T value){
     }
 }
 
-template <typename T> T List<T>::get(int position){
+template <typename T> T List<T>::get(int position) const{
     Iterator<T> iter = *new Iterator<T>(head);
     
     while (iter) {
@@ -201,12 +203,19 @@ template <typename T> T List<T>::get(int position){
     return head->value;
 }
 
-template <typename T> T List<T>::get(Iterator<T> iterator){
+template <typename T> T List<T>::get(Iterator<T> iterator) const{
     return iterator.getIterator()->value;
 }
 
-template <typename T> element<T>* List<T>::getFirstElement(){
+template <typename T> element<T>* List<T>::getFirstElement() const{
     return head;
+}
+
+template <typename T>  bool List<T>::operator =(List list){
+    head = list.head;
+    last = list.last;
+    
+    return true;
 }
 
 }

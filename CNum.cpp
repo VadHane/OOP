@@ -32,7 +32,7 @@ CNum::CNum(){
 
 /// Read all values of complex number from console.
 void CNum::input(){
-    cout << "Input your complex number: " << endl << " Real part of this number: ";
+    cout << " Real part of this number: ";
     cin >> realPart;
     cout << " Imaginary part of this number: ";
     cin >> imaginaryPart;
