@@ -7,8 +7,8 @@
 #include "CNum.hpp"
 
 class Polinom{
-    SingleLinkList::List<CNumber::CNum> allCoeff;
-    SingleLinkList::List<int> powers; // power of the number X for all members
+    SingleLinkList::List<CNumber::CNum> *allCoeff;
+    SingleLinkList::List<int> *powers; // power of the number X for all members
     
     int power;
 public:
@@ -20,7 +20,7 @@ public:
     
     
     
-    //~Polinom();
+    ~Polinom();
     
     void input(); 
     
@@ -30,7 +30,7 @@ public:
     
     void output();
     
-    Polinom* copy();
+    Polinom* copy() const;
     
     CNumber::CNum getValueInPoint(CNumber::CNum pointX);
     
@@ -38,11 +38,11 @@ public:
     
     friend Polinom operator +(const Polinom &, const Polinom &);
     
-    Polinom operator -(const Polinom &);
+    Polinom operator -(const Polinom &) const;
     
-    Polinom operator *(const Polinom &);
+    Polinom operator *(const Polinom &) const;
     
-    bool operator ==(const Polinom &);
+    bool operator ==(const Polinom &) const;
     
     Polinom& operator =(const Polinom &);
 };

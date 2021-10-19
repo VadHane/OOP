@@ -28,7 +28,6 @@ public:
     
     Iterator(const List<T> &list, int iteratorPosition = 0);
     
-    
     element<T>* getIterator();
     
     void next();
@@ -53,14 +52,17 @@ class List{
 private:
     element<T> *head, *last;
     
+    
 public:
     List();
     
-    //~List();
+    ~List();
+    
+    void freeMemory();
     
     bool isEmpty();
     
-    void add(T value);
+    void add(const T value);
     
     T get(int position) const;
     
@@ -68,7 +70,9 @@ public:
     
     element<T>* getFirstElement() const;
     
-    bool operator =(List);
+    List& operator =(const List<T> &);
+    
+    
 };
 
 // Functions for iterator
@@ -148,22 +152,35 @@ template <typename T> Iterator<T>::operator bool(){
 
 // Functions for list
 
+template <typename T> void List<T>::freeMemory(){
+    Iterator<T> iter = *new Iterator<T>(head);
+    
+    while (iter) {
+        delete iter++;
+    }
+    
+    head = nullptr;
+    last = nullptr;
+}
+
+
 template <typename T> List<T>::List(){
     head = nullptr;
     last = nullptr;
 }
 
-/*
 template <typename T> List<T>::~List(){
+    
     Iterator<T> iter = *new Iterator<T>(head);
     
     while(iter){
         delete iter++;
     }
     
-    //delete iter;
+    
+    
 }
- */
+
 
 template <typename T> bool List<T>::isEmpty(){
     return last == nullptr;
@@ -211,11 +228,17 @@ template <typename T> element<T>* List<T>::getFirstElement() const{
     return head;
 }
 
-template <typename T>  bool List<T>::operator =(List list){
-    head = list.head;
-    last = list.last;
+template <typename T>  List<T>& List<T>::operator =(const List<T> &list){
     
-    return true;
+    freeMemory();
+    
+    Iterator<T> iter = *new Iterator<T>(list.getFirstElement());
+    
+    while (iter) {
+        add((iter++)->value);
+    }
+    
+    return *this;
 }
 
 }
