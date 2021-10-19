@@ -12,6 +12,7 @@ struct element{
     element* next;
     element* previous;
     int position;
+
 };
 
 template <typename T>
@@ -153,6 +154,8 @@ template <typename T> Iterator<T>::operator bool(){
 // Functions for list
 
 template <typename T> void List<T>::freeMemory(){
+    if(head == nullptr || this == nullptr) return;
+    
     Iterator<T> iter = *new Iterator<T>(head);
     
     while (iter) {
@@ -177,6 +180,8 @@ template <typename T> List<T>::~List(){
         delete iter++;
     }
     
+    head = nullptr;
+    last = nullptr;
     
     
 }
@@ -229,8 +234,10 @@ template <typename T> element<T>* List<T>::getFirstElement() const{
 }
 
 template <typename T>  List<T>& List<T>::operator =(const List<T> &list){
+    if (head != nullptr) {
+        freeMemory();
+    }
     
-    freeMemory();
     
     Iterator<T> iter = *new Iterator<T>(list.getFirstElement());
     

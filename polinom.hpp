@@ -22,29 +22,15 @@ public:
     
     ~Polinom();
     
-    void input(); 
-    
     void add(CNumber::CNum number);
     
     friend void add(Polinom &, CNumber::CNum number, int power);
     
+    void input();
+    
     void output();
     
     Polinom* copy() const;
-    
-    CNumber::CNum getValueInPoint(CNumber::CNum pointX);
-    
-    CNumber::CNum getValueInPoint(CNumber::CNum pointX, CNumber::CNum pointB);
-    
-    friend Polinom operator +(const Polinom &, const Polinom &);
-    
-    Polinom operator -(const Polinom &) const;
-    
-    Polinom operator *(const Polinom &) const;
-    
-    bool operator ==(const Polinom &) const;
-    
-    Polinom& operator =(const Polinom &);
 };
 
 

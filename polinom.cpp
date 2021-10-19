@@ -15,6 +15,8 @@ Polinom::Polinom(){
 }
 
 Polinom::Polinom(const List<CNum> &secondOperand){
+    if(allCoeff == nullptr) allCoeff = new List<CNum>();
+    
     *allCoeff = secondOperand;
     
     Iterator<CNum> iter = *new Iterator<CNum>(*allCoeff);
@@ -37,12 +39,15 @@ Polinom::Polinom(const Polinom &secondOperand){
 Polinom::~Polinom(){
     delete allCoeff;
     delete powers;
+    allCoeff = nullptr;
+    powers = nullptr;
+    
 }
 
  
 void Polinom::input(){
     int lenOfList;
-    cout << "Input length of your second polinom: ";
+    cout << "Input length of your polinom: ";
     cin >> lenOfList;
     
     allCoeff->freeMemory();
@@ -76,27 +81,13 @@ void add(Polinom &polinom, CNumber::CNum number, int power){
     polinom.powers->add(power);
 }
 
-Polinom operator +(const Polinom &firstAddition, const Polinom &secondAddition){
-    Polinom result = *new Polinom();
-    SingleLinkList::Iterator<CNumber::CNum> firstIter = *new SingleLinkList::Iterator<CNumber::CNum>(*firstAddition.allCoeff);
-    SingleLinkList::Iterator<CNumber::CNum> secondIter = *new SingleLinkList::Iterator<CNumber::CNum>(*secondAddition.allCoeff);
-    
-    while (firstIter) {
-        if (secondIter) {
-            result.add((firstIter++)->value + (secondIter++)->value);
-        } else {
-            result.add((firstIter++)->value);
-        }
-    }
-    
-    while (secondIter) {
-        result.add((secondIter++)->value);
-    }
-        
-    return result;
-}
 
 void Polinom::output() {
+    if (allCoeff == nullptr || powers == nullptr) {
+        cout << "NULL" << endl;
+        return;
+    }
+    
     Iterator<int> iterPow = *new Iterator<int>(*powers);
     Iterator<CNum> iter = *new Iterator<CNum>(*allCoeff);
     
@@ -124,163 +115,3 @@ Polinom* Polinom::copy() const{
     
     return result;
 }
-
-CNum Polinom::getValueInPoint(CNum point){
-    CNum result;
-    int power = 1;
-    Iterator<CNum> iter = *new Iterator<CNum>(*allCoeff);
-    
-    result = (iter++)->value;
-    
-    while (iter) {
-        result = result + ((iter++)->value * point.pow(power));
-    }
-    
-    
-    return result;
-}
-
-CNum Polinom::getValueInPoint(CNum pointX, CNum pointB){
-    CNum result;
-    int power = 1;
-    Iterator<CNum> iter = *new Iterator<CNum>(*allCoeff);
-    
-    result = (iter++)->value;
-    
-    while (iter) {
-        result = result + ((iter++)->value * pointX.pow(pointB, power));
-    }
-    
-    
-    return result;
-}
-
-
-Polinom Polinom::operator -(const Polinom &secondAddition) const{
-    Polinom result = *new Polinom();
-    Iterator<CNum> firstIter = *new Iterator<CNum>(*allCoeff);
-    Iterator<CNum> secondIter = *new Iterator<CNum>(*secondAddition.allCoeff);
-    
-    while (firstIter) {
-        if (secondIter) {
-            result.add((firstIter++)->value - (secondIter++)->value);
-        } else {
-            result.add((firstIter++)->value);
-        }
-    }
-    
-    while (secondIter) {
-        result.add((secondIter++)->value * -1);
-    }
-    
-    
-    
-    
-    return result;
-}
-
-Polinom Polinom::operator *(const Polinom &secondAddition) const{ // !!!
-    Polinom tmp = *new Polinom();
-    
-    Iterator<CNum> firstIter = *new Iterator<CNum>(*allCoeff);
-    Iterator<int> firstIterPower = *new Iterator<int>(*powers);
-    Iterator<CNum> secondIter = *new Iterator<CNum>(*secondAddition.allCoeff);
-    Iterator<int> secondIterPower = *new Iterator<int>(*secondAddition.powers);
-    
-    while (firstIter) {
-        CNum firstElement = allCoeff->get(firstIter++);
-        int power = powers->get(firstIterPower++);
-        
-        while(secondIter){
-            ::add(tmp, firstElement * secondAddition.allCoeff->get(secondIter++), power + secondAddition.powers->get(secondIterPower++));
-        }
-        
-        secondIter.moveToStart();
-        secondIterPower.moveToStart();
-    }
-    
-
-    
-    Iterator<CNum> tmpIter = *new Iterator<CNum>(*tmp.allCoeff);
-    Iterator<int> tmpIterPower = *new Iterator<int>(*tmp.powers);
-    
-    int maxPower = 0;
-    
-    while(tmpIter){
-        tmpIter++;
-        int power = tmp.powers->get(tmpIterPower++);
-        maxPower = maxPower < power ? power : maxPower;
-    }
-    
-    tmpIter.moveToStart();
-    tmpIterPower.moveToStart();
-    
-    Polinom result = *new Polinom();
-    
-    
-    for(int i = 0; i <= maxPower; i++){
-        CNum number = *new CNum(0, 0);
-        bool wasEdit = false;
-        
-        while(tmpIter){
-            int power = tmp.powers->get(tmpIterPower++);
-            
-            if(power == i){
-                number = number + tmp.allCoeff->get(tmpIter++);
-                wasEdit = true;
-                continue;
-            }
-            
-            tmpIter++;
-        }
-        
-        if (wasEdit) result.add(number);
-        
-        tmpIter.moveToStart();
-        tmpIterPower.moveToStart();
-    }
-    
-
-    
-    return result;
-}
-
-bool Polinom::operator ==(const Polinom &secondAddition) const{
-    Iterator<CNum> firstIter = *new Iterator<CNum>(*allCoeff);
-    Iterator<CNum> secondIter = *new Iterator<CNum>(*secondAddition.allCoeff);
-    
-    
-    while (firstIter) {
-        if (secondIter) {
-            if ((firstIter++)->value != (secondIter++)->value) return false;
-        } else {
-            return false; // if first addition have some memberst but second addition have not it
-        }
-    }
-    
-    // if second addition have some members
-    if (secondIter) return false;
-    
-    delete &firstIter;
-    delete &secondIter;
-    
-    return true;
-}
-
-Polinom& Polinom::operator =(const Polinom &secondOperand){
-    if(typeid(allCoeff->getFirstElement()->value) == typeid(secondOperand.allCoeff->getFirstElement()->value)) {
-        if( this == &secondOperand ) return *this;
-        delete &allCoeff;
-        delete &powers;
-        Polinom* tmp = secondOperand.copy();
-        this->allCoeff = tmp->allCoeff;
-        this->powers = tmp->powers;
-        this->power = tmp->power;
-        
-        delete tmp;
-    }
-    
-    return *this;
-}
-
-

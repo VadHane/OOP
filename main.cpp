@@ -3,87 +3,54 @@
 #include "polinom.hpp"
 using namespace std;
 
+void test(Polinom pol){
+    cout << "\nКонструктор копіювання: \n";
+    pol.output();
+    
+}
 
 
 int main() {
-    Polinom polinom = *new Polinom();
+    Polinom *polinom = new Polinom();
     
-    polinom.input();
+    cout << "Конструктор без параметрів: \n";
+    polinom->input();
     cout << "Your polinom: " << endl;
-    polinom.output();
+    polinom->output();
+    
+    test(*polinom);
+    
+    delete polinom;
     
     
-    while (true) {
-        int userChoice;
-        Polinom secondNumber = *new Polinom();
-        CNumber::CNum CNumber;
-        CNumber::CNum CNumberB;
+    cout << "\nЕкземпляр після деструктора:\n->";
+    polinom->output();
+    
+    cout << "Конструктор з параметром: \n";
+    cout << "Input length of your polinom:";
+    int len;
+    cin >> len;
+    
+    SingleLinkList::List<CNumber::CNum> list = *new SingleLinkList::List<CNumber::CNum>();
+    
+    for (int i = 0; i < len; i++){
+        int real, imag;
+        cout << "Input your complex number for x^" << i <<":\n";
+        cout << "Real part of this number: ";
+        cin >> real;
+        cout << "Imaginary part of this number: ";
+        cin >> imag;
         
-        cout << "\nChoice action: \
-        \n1)Adding \
-        \n2)Subtraction \
-        \n3)Multiplication \
-        \n4)Value in point x \
-        \n5)Value in point (x + b) \
-        \n0)Stop \
-        \n--> ";
-        
-        cin >> userChoice;
-        
-        switch (userChoice) {
-            case 1:
-                secondNumber.input();
-                polinom.output();
-                cout << endl << "    +      " << endl;
-                secondNumber.output();
-                cout << endl << "    =      " << endl;
-                (polinom + secondNumber).output();
-                
-                break;
-            case 2:
-                secondNumber.input();
-                
-                polinom.output();
-                cout << endl << "    -      " << endl;
-                secondNumber.output();
-                cout << endl << "    =      " << endl;
-                (polinom - secondNumber).output();
-                
-                break;
-            case 3:
-                secondNumber.input();
-                
-                polinom.output();
-                cout << endl << "    *      " << endl;
-                secondNumber.output();
-                cout << endl << "    =      " << endl;
-                (polinom * secondNumber).output();
-                
-                break;
-            case 4:
-                cout << "Input point x: " << endl;
-                CNumber.input();
-                CNumber = polinom.getValueInPoint(CNumber);
-                
-                cout << "Result: (" << CNumber.realPart << " + " << CNumber.imaginaryPart << "i);";
-                
-                break;
-            case 5:
-                cout << "Input point x: " << endl;
-                CNumber.input();
-                cout << endl << "Input point B: " << endl;
-                CNumberB.input();
-                CNumber = polinom.getValueInPoint(CNumber, CNumberB);
-                
-                cout << "Result: (" << CNumber.realPart << " + " << CNumber.imaginaryPart << "i);";
-                
-                break;
-            case 0:
-                return 0;
-            default:
-                cout << "Unkomon command";
-                break;
-        }
+        list.add(*new CNumber::CNum(real, imag));
     }
     
+    cout << "Your polinom: " << endl;
+    polinom = new Polinom(list);
+    polinom->output();
+    
+    delete polinom;
+    
+    
+    cout << "\nЕкземпляр після деструктора:\n->";
+    polinom->output();
 }
