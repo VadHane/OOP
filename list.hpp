@@ -45,6 +45,7 @@ public:
     
     element<T>* operator --(int);
     
+    
     operator bool();
 };
 

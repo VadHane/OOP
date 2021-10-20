@@ -31,6 +31,16 @@ public:
     void output();
     
     Polinom* copy() const;
+    
+    friend Polinom operator +(const Polinom &, const Polinom &);
+    
+    Polinom operator -(const Polinom &) const;
+    
+    Polinom operator *(const Polinom &) const;
+    
+    bool operator ==(const Polinom &) const;
+    
+    Polinom& operator =(const Polinom &);
 };
 
 
