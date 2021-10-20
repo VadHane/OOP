@@ -8,7 +8,7 @@ int main() {
     Polinom add2 = *new Polinom();
     
     while (true) {
-        cout << "\n1) + \n2) - \n3) * \n4) = \n->";
+        cout << "\n1) + \n2) - \n3) * \n4) == \n->";
         int choice;
         cin >> choice;
         
@@ -19,7 +19,7 @@ int main() {
             add1.output();
             cout << "\n        + \n";
             add2.output();
-            cout << endl;
+            cout << "\n        = \n";
             (add1 + add2).output();
         } else if (choice == 2){
             add1.input();
@@ -28,7 +28,7 @@ int main() {
             add1.output();
             cout << "\n        - \n";
             add2.output();
-            cout << endl;
+            cout << "\n        = \n";
             (add1 - add2).output();
         } else if (choice == 3){
             add1.input();
@@ -37,26 +37,17 @@ int main() {
             add1.output();
             cout << "\n        * \n";
             add2.output();
-            cout << endl;
+            cout << "\n        = \n";
             (add1 * add2).output();
         } else if (choice == 4) {
             add1.input();
             add2.input();
-            Polinom add3 = *new Polinom();
-            add3.input();
             
-            add1 = add2 = add3;
-            
-            add2 = add1 + add3;
-            
-            cout << "\nadd1: \n";
-            add1.output();
-            
-            cout << "\nadd1: \n";
-            add2.output();
-            
-            cout << "\nadd1: \n";
-            add3.output();
+            if (add1 == add2) {
+                cout << "\nadd1 = add2\n";
+            } else {
+                cout << "\nadd1 = add2\n";
+            }
         } else {
             break;
         }
