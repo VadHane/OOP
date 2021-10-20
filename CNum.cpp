@@ -59,55 +59,35 @@ CNum CNum::pow(int power){
     return resultNumber;
 }
 
-long factorial(int number){
-    long result = 1;
-    for (int i = 1; i <= number; i++) result *= i;
-    return result;
-}
-
-int binomCoeff(int topBorder, int lowBorder){
-    return (int)(factorial(topBorder) / (factorial(lowBorder) * factorial(topBorder - lowBorder)));
-}
-
-CNum CNum::pow(CNum secondNumber, int power){
-    CNum result = *new CNum(0);
-    
-    for (int i = 0; i <= power; i++) {
-        result = result + pow(power - i) * secondNumber.pow(i) * binomCoeff(power, power - 1);
-    }
-    
-    return result;
-}
-
-CNum CNum::operator +(CNum secondAddition){
+CNum CNum::operator +(const CNum secondAddition) const {
     return *new CNum(realPart + secondAddition.realPart, imaginaryPart + secondAddition.imaginaryPart);
 }
 
-CNum CNum::operator +(double secondAddition){
+CNum CNum::operator +(double secondAddition) const {
     return *new CNum(realPart + secondAddition, imaginaryPart);
 }
 
-CNum CNum::operator -(CNum secondAddition){
+CNum CNum::operator -(const CNum secondAddition) const {
     return *new CNum(realPart - secondAddition.realPart, imaginaryPart - secondAddition.imaginaryPart);
 }
 
-CNum CNum::operator -(double secondAddition){
+CNum CNum::operator -(double secondAddition) const {
     return *new CNum(realPart - secondAddition, imaginaryPart);
 }
 
-CNum CNum::operator *(CNum secondAddition){
+CNum CNum::operator *(const CNum secondAddition) const{
     return *new CNum((realPart * secondAddition.realPart - imaginaryPart * secondAddition.imaginaryPart),
                      (imaginaryPart * secondAddition.realPart + realPart * secondAddition.imaginaryPart));
 }
 
-CNum CNum::operator *(double secondAddition){
+CNum CNum::operator *(double secondAddition) const{
     return *new CNum(realPart * secondAddition, imaginaryPart * secondAddition);
 }
 
-bool CNum::operator ==(CNum secondAddition) {
+bool CNum::operator ==(const CNum secondAddition) const{
     return realPart == secondAddition.realPart && imaginaryPart == secondAddition.imaginaryPart;
 }
 
-bool CNum::operator !=(CNum secondAddition) {
+bool CNum::operator !=(const CNum secondAddition) const {
     return !(*this == secondAddition);
 }

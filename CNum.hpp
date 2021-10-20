@@ -19,19 +19,18 @@ public:
     void input();
     char* toString();
     CNum pow(int);
-    CNum pow(CNum, int);
     
-    CNum operator +(CNum);
-    CNum operator +(double);
+    CNum operator +(const CNum) const;
+    CNum operator +(double) const;
     
-    CNum operator -(CNum);
-    CNum operator -(double);
+    CNum operator -(const CNum) const;
+    CNum operator -(double) const;
     
-    CNum operator *(CNum);
-    CNum operator *(double);
+    CNum operator *(const CNum) const;
+    CNum operator *(double) const;
     
-    bool operator ==(CNum);
-    bool operator !=(CNum);
+    bool operator ==(const CNum) const;
+    bool operator !=(const CNum) const;
 };
 
 

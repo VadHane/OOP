@@ -8,7 +8,14 @@ int main() {
     Polinom add2 = *new Polinom();
     
     while (true) {
-        cout << "\n1) + \n2) - \n3) * \n4) == \n->";
+        cout << "\nChoice action: \
+                \n1)Adding \
+                \n2)Subtraction \
+                \n3)Multiplication \
+                \n4)Value in point x \
+                \n5)Polinom in point (x + b) \
+                \n0)Stop \
+                \n--> ";
         int choice;
         cin >> choice;
         
@@ -41,13 +48,23 @@ int main() {
             (add1 * add2).output();
         } else if (choice == 4) {
             add1.input();
-            add2.input();
+            CNumber::CNum CNumber;
             
-            if (add1 == add2) {
-                cout << "\nadd1 = add2\n";
-            } else {
-                cout << "\nadd1 = add2\n";
-            }
+            cout << "Input point x: " << endl;
+            CNumber.input();
+            CNumber = add1.getValueInPoint(CNumber);
+                            
+            cout << "Result: (" << CNumber.realPart << " + " << CNumber.imaginaryPart << "i);\n";
+        } else if (choice == 5){
+            add1.input();
+            
+            CNumber::CNum CNumber;
+            cout << "Input point В: " << endl;
+            CNumber.input();
+            
+            add1.output();
+            cout << "\n   ---   х = х + b  ---  \n";
+            add1.newViewWithPointB(CNumber).output();
         } else {
             break;
         }

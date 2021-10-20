@@ -53,6 +53,7 @@ void Polinom::input(){
     
     allCoeff->freeMemory();
     powers->freeMemory();
+    power = 0;
     
     cout << "Input your polinom: " << endl;
     for (int i = 0; i <lenOfList; i++) {
@@ -82,6 +83,15 @@ void add(Polinom &polinom, CNumber::CNum number, int power){
     polinom.powers->add(power);
 }
 
+void Polinom::add(Polinom polinom){
+    Iterator<CNum> iter(polinom.allCoeff->getFirstElement());
+    Iterator<int> iterPow(polinom.powers->getFirstElement());
+    
+    while (iter) {
+        ::add(*this, (iter++)->value, (iterPow++)->value);
+    }
+    
+}
 
 void Polinom::output() {
     if (allCoeff == nullptr || powers == nullptr) {
@@ -107,14 +117,64 @@ void Polinom::output() {
 
 Polinom* Polinom::copy() const{
     Polinom* result = new Polinom();
-    Iterator<CNum> iter = *new Iterator<CNum>(*allCoeff);
+    Iterator<CNum> iter(*allCoeff);
+    Iterator<int> iterPow(*powers);
     
     while (iter) {
-        result->add(allCoeff->get(iter++));
+        ::add(*result, allCoeff->get(iter++), powers->get(iterPow++));
     }
     
     
     return result;
+}
+
+CNum Polinom::getValueInPoint(CNum point){
+    CNum result;
+    int power = 1;
+    Iterator<CNum> iter = *new Iterator<CNum>(*allCoeff);
+    
+    result = (iter++)->value;
+    
+    while (iter) {
+        result = result + ((iter++)->value * point.pow(power));
+    }
+    
+    
+    return result;
+}
+
+
+long factorial(int number){
+    long result = 1;
+    for (int i = 1; i <= number; i++) result *= i;
+    return result;
+}
+
+double binomCoeff(int topBorder, int lowBorder){
+    return (factorial(topBorder) / (factorial(lowBorder) * factorial(topBorder - lowBorder)));
+}
+
+Polinom pow(CNum numberB, int power){
+    Polinom polinom;
+
+    for (int i = 0; i <= power; i++) {
+        ::add(polinom, numberB.pow(power - i) * binomCoeff(power, i), i);
+    }
+    
+    return polinom;
+}
+
+Polinom Polinom::newViewWithPointB(CNum pointB){
+    Polinom result = *new Polinom();
+    
+    Iterator<CNum> iter(allCoeff->getFirstElement());
+    Iterator<int> iterPow(powers->getFirstElement());
+    
+    while (iter) {
+        result.add(pow(pointB, (iterPow++)->value) * (iter++)->value);
+    }
+    
+    return erectSimilar(result);
 }
 
 Polinom operator +(const Polinom &firstAddition, const Polinom &secondAddition){
@@ -180,50 +240,19 @@ Polinom Polinom::operator *(const Polinom &secondAddition) const{ // !!!
         secondIterPower.moveToStart();
     }
     
+    return erectSimilar(tmp);
+}
 
+Polinom Polinom::operator *(const CNum &secondAddition) const {
+    Polinom *polinom = new Polinom();
+    Iterator<CNum> iter(allCoeff->getFirstElement());
+    Iterator<int> iterPow(powers->getFirstElement());
     
-    Iterator<CNum> tmpIter = *new Iterator<CNum>(*tmp.allCoeff);
-    Iterator<int> tmpIterPower = *new Iterator<int>(*tmp.powers);
-    
-    int maxPower = 0;
-    
-    while(tmpIter){
-        tmpIter++;
-        int power = tmp.powers->get(tmpIterPower++);
-        maxPower = maxPower < power ? power : maxPower;
+    while(iter){
+        ::add(*polinom, secondAddition * (iter++)->value, (iterPow++)->value);
     }
     
-    tmpIter.moveToStart();
-    tmpIterPower.moveToStart();
-    
-    Polinom result = *new Polinom();
-    
-    
-    for(int i = 0; i <= maxPower; i++){
-        CNum number = *new CNum(0, 0);
-        bool wasEdit = false;
-        
-        while(tmpIter){
-            int power = tmp.powers->get(tmpIterPower++);
-            
-            if(power == i){
-                number = number + tmp.allCoeff->get(tmpIter++);
-                wasEdit = true;
-                continue;
-            }
-            
-            tmpIter++;
-        }
-        
-        if (wasEdit) result.add(number);
-        
-        tmpIter.moveToStart();
-        tmpIterPower.moveToStart();
-    }
-    
-
-    
-    return result;
+    return *polinom;
 }
 
 bool Polinom::operator ==(const Polinom &secondAddition) const{
