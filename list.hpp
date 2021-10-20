@@ -154,7 +154,7 @@ template <typename T> Iterator<T>::operator bool(){
 // Functions for list
 
 template <typename T> void List<T>::freeMemory(){
-    if(head == nullptr || this == nullptr) return;
+    if(head == nullptr) return;
     
     Iterator<T> iter = *new Iterator<T>(head);
     

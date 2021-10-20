@@ -9,12 +9,15 @@ using namespace CNumber;
 using namespace SingleLinkList;
 
 Polinom::Polinom(){
+    cout << "Конструктор без параметрів: \n";
     allCoeff = new List<CNum>();
     powers = new List<int>();
     power = 0;
 }
 
 Polinom::Polinom(const List<CNum> &secondOperand){
+    cout << "Конструктор з параметром: \n";
+    
     if(allCoeff == nullptr) allCoeff = new List<CNum>();
     
     *allCoeff = secondOperand;
@@ -28,6 +31,7 @@ Polinom::Polinom(const List<CNum> &secondOperand){
 }
 
 Polinom::Polinom(const Polinom &secondOperand){
+    cout << "\nКонструктор копіювання: \n";
     Polinom* tmp = secondOperand.copy();
     this->allCoeff = tmp->allCoeff;
     this->powers = tmp->powers;
@@ -37,6 +41,7 @@ Polinom::Polinom(const Polinom &secondOperand){
 
 
 Polinom::~Polinom(){
+    cout << "\nДеструктор полінома\n";
     delete allCoeff;
     delete powers;
     allCoeff = nullptr;

@@ -3,30 +3,20 @@
 #include "polinom.hpp"
 using namespace std;
 
-void test(Polinom pol){
-    cout << "\nКонструктор копіювання: \n";
-    pol.output();
-    
-}
-
-
 int main() {
-    Polinom *polinom = new Polinom();
+    {
+        
+    Polinom polinom = *new Polinom();
     
-    cout << "Конструктор без параметрів: \n";
-    polinom->input();
+    polinom.input();
     cout << "Your polinom: " << endl;
-    polinom->output();
-    
-    test(*polinom);
-    
-    delete polinom;
+    polinom.output();
     
     
-    cout << "\nЕкземпляр після деструктора:\n->";
-    polinom->output();
+    }
     
-    cout << "Конструктор з параметром: \n";
+    {
+        
     cout << "Input length of your polinom:";
     int len;
     cin >> len;
@@ -45,12 +35,10 @@ int main() {
     }
     
     cout << "Your polinom: " << endl;
-    polinom = new Polinom(list);
-    polinom->output();
+    Polinom polinom = *new Polinom(list);
+    polinom.output();
+        
+    }
     
-    delete polinom;
-    
-    
-    cout << "\nЕкземпляр після деструктора:\n->";
-    polinom->output();
+    cout << "\nMain завершила роботу\n";
 }
