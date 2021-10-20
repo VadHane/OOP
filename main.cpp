@@ -46,7 +46,7 @@ int main() {
             if (add1 == add2) {
                 cout << "\nadd1 = add2\n";
             } else {
-                cout << "\nadd1 = add2\n";
+                cout << "\nadd1 != add2\n";
             }
         } else {
             break;
