@@ -30,6 +30,18 @@ Polinom::Polinom(const List<CNum> &secondOperand){
     }
 }
 
+Polinom::Polinom(CNumber::CNum add1, CNumber::CNum add2){
+    cout << "Конструктор з двома комп числами: \n";
+    allCoeff = new List<CNum>();
+    powers = new List<int>();
+    
+    allCoeff->add(add1);
+    powers->add(0);
+    
+    allCoeff->add(add2);
+    powers->add(1);
+}
+
 Polinom::Polinom(const Polinom &secondOperand){
     cout << "\nКонструктор копіювання: \n";
     Polinom* tmp = secondOperand.copy();
@@ -119,4 +131,18 @@ Polinom* Polinom::copy() const{
     
     
     return result;
+}
+
+Polinom& Polinom::operator =(const Polinom &secondOperand){
+    if(typeid(allCoeff->getFirstElement()->value) == typeid(secondOperand.allCoeff->getFirstElement()->value)) {
+        if( this == &secondOperand ) return *this;
+        allCoeff->freeMemory();
+        powers->freeMemory();
+        Polinom* tmp = secondOperand.copy();
+        this->allCoeff = tmp->allCoeff;
+        this->powers = tmp->powers;
+        this->power = tmp->power;
+    }
+    
+    return *this;
 }

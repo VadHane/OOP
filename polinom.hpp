@@ -16,6 +16,8 @@ public:
     
     Polinom(const SingleLinkList::List<CNumber::CNum> &secondOperand);
     
+    Polinom(CNumber::CNum, CNumber::CNum); 
+    
     Polinom(const Polinom &secondOperand);
     
     
@@ -31,6 +33,8 @@ public:
     void output();
     
     Polinom* copy() const;
+    
+    Polinom& operator =(const Polinom &secondOperand);
 };
 
 
