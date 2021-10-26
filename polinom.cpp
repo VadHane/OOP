@@ -271,8 +271,6 @@ bool Polinom::operator ==(const Polinom &secondAddition) const{
     // if second addition have some members
     if (secondIter) return false;
     
-    delete &firstIter;
-    delete &secondIter;
     
     return true;
 }

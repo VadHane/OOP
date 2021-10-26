@@ -51,7 +51,7 @@ public:
     Polinom& operator =(const Polinom &);
     
     
-    static Polinom erectSimilar(Polinom polinom){
+    static Polinom erectSimilar(Polinom &polinom){
         
         SingleLinkList::Iterator<CNumber::CNum> tmpIter = *new SingleLinkList::Iterator<CNumber::CNum>(polinom.allCoeff->getFirstElement());
         SingleLinkList::Iterator<int> tmpIterPower = *new SingleLinkList::Iterator<int>(polinom.powers->getFirstElement());
