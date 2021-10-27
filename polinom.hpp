@@ -20,6 +20,7 @@ public:
     
     Polinom(const Polinom &secondOperand);
     
+    Polinom(CNumber::CNum add1, CNumber::CNum add2);
     
     
     SingleLinkList::List<CNumber::CNum> *getAllCoeff() {return allCoeff;}
