@@ -45,6 +45,16 @@ Polinom::~Polinom(){
     
 }
 
+Polinom::Polinom(CNumber::CNum add1, CNumber::CNum add2){
+    allCoeff = new List<CNum>();
+    powers = new List<int>();
+    
+    allCoeff->add(add1);
+    powers->add(0);
+    
+    allCoeff->add(add2);
+    powers->add(1);
+}
  
 void Polinom::input(){
     int lenOfList;
