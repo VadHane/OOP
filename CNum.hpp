@@ -29,8 +29,17 @@ public:
     CNum operator *(const CNum) const;
     CNum operator *(double) const;
     
+    CNum operator /(const CNum) const;
+    CNum operator /(double) const;
+    
     bool operator ==(const CNum) const;
     bool operator !=(const CNum) const;
+    
+    friend std::ostream& operator <<(std::ostream& out, const CNum &num){
+        if(num.imaginaryPart >= 0) out << "(" << num.realPart << " + " << num.imaginaryPart << "i)";
+        else out << "(" << num.realPart << " - " << num.imaginaryPart * - 1<< "i)";
+        return out;
+    }
 };
 
 

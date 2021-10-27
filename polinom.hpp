@@ -7,10 +7,12 @@
 #include "CNum.hpp"
 
 class Polinom{
+protected:
     SingleLinkList::List<CNumber::CNum> *allCoeff;
     SingleLinkList::List<int> *powers; // power of the number X for all members
     
     int power;
+    
 public:
     Polinom();
     
@@ -20,6 +22,12 @@ public:
     
     
     
+    SingleLinkList::List<CNumber::CNum> *getAllCoeff() {return allCoeff;}
+    
+    SingleLinkList::List<int> *getPowers() {return powers;}
+    
+    int getPower() {return power;}
+    
     ~Polinom();
     
     void add(CNumber::CNum number);
@@ -27,6 +35,8 @@ public:
     void add(Polinom polinom);
     
     friend void add(Polinom &, CNumber::CNum number, int power);
+    
+    void add(CNumber::CNum number, int power);
     
     void input();
     

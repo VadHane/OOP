@@ -1,70 +1,67 @@
 #include <iostream>
 #include "CNum.hpp"
-#include "polinom.hpp"
+#include "NewPolinom.hpp"
 using namespace std;
 
 int main() {
-    Polinom add1 = *new Polinom();
-    Polinom add2 = *new Polinom();
+    
+    NewPolinom add1;
+    NewPolinom add2;
     
     while (true) {
         cout << "\nChoice action: \
-                \n1)Adding \
-                \n2)Subtraction \
-                \n3)Multiplication \
-                \n4)Value in point x \
-                \n5)Polinom in point (x + b) \
+                \n1)Power \
+                \n2)Multiply by -1 \
+                \n3)Increase each item by 1 \
+                \n4)Derivative \
+                \n5)Indefinite Integral) \
+                \n6)Definite Integral \
+                \n7)Get coeff by index \
                 \n0)Stop \
                 \n--> ";
         int choice;
         cin >> choice;
         
         if (choice == 1) {
-            add1.input();
-            add2.input();
+            cin >> add1;
+            int power;
+            cout << "Power: ";
+            cin >> power;
             
-            add1.output();
-            cout << "\n        + \n";
-            add2.output();
-            cout << "\n        = \n";
-            (add1 + add2).output();
+            cout << add1 << "\n        ^ \n" << power << "\n        = \n" << (add1^power);
+
         } else if (choice == 2){
-            add1.input();
-            add2.input();
+            cin >> add1;
             
-            add1.output();
-            cout << "\n        - \n";
-            add2.output();
-            cout << "\n        = \n";
-            (add1 - add2).output();
+            cout << add1 << "\n        ! \n" << "\n        = \n" << (!add1);
         } else if (choice == 3){
-            add1.input();
-            add2.input();
+            cin >> add1;
             
-            add1.output();
-            cout << "\n        * \n";
-            add2.output();
-            cout << "\n        = \n";
-            (add1 * add2).output();
+            cout << add1 << "\n        ++ \n" << "\n        = \n" << (++add1);
         } else if (choice == 4) {
-            add1.input();
-            CNumber::CNum CNumber;
+            cin >> add1;
             
-            cout << "Input point x: " << endl;
-            CNumber.input();
-            CNumber = add1.getValueInPoint(CNumber);
-                            
-            cout << "Result: (" << CNumber.realPart << " + " << CNumber.imaginaryPart << "i);\n";
+            cout << add1 << "\n        "<< add1.getName() << " = " << add1.getName() <<"`("<< add1.getSymbolOfVar() <<") \n" << "\n        = \n" << add1.derivative();
         } else if (choice == 5){
-            add1.input();
+            cin >> add1;
             
-            CNumber::CNum CNumber;
-            cout << "Input point В: " << endl;
-            CNumber.input();
+            cout << add1 << "\n        "<< add1.getName() << " = F(" << add1.getName() << ") \n" << "\n        = \n" << add1.indefiniteIntegral();
+        } else if (choice == 6){
+            cin >> add1;
+            double top, bottom;
+            cout << "Input top border: ";
+            cin >> top;
+            cout << "Input bottom border: ";
+            cin >> bottom;
             
-            add1.output();
-            cout << "\n   ---   х = х + b  ---  \n";
-            add1.newViewWithPointB(CNumber).output();
+            cout << add1 << "\n        "<< add1.getName() << " = F(" << add1.getName()  <<") \n" << "\n        = \n" << add1.definiteIntegral(bottom, top);
+        } else if (choice == 7){
+            int index;
+            cin >> add1;
+            cout << "Input index: ";
+            cin >> index;
+            
+            cout << add1 << "\n " << add1.getName() << "[" << index << "] = " << add1[index];
         } else {
             break;
         }

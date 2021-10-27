@@ -212,18 +212,13 @@ template <typename T> void List<T>::add(T value){
 }
 
 template <typename T> T List<T>::get(int position) const{
-    Iterator<T> iter = *new Iterator<T>(head);
+    Iterator<T> iter(head);
     
-    while (iter) {
-        if (iter.getPosition() == position) {
-            element<T>* result = iter.getIterator();
-            delete &iter;
-            
-            return result->value;
-        }
+    for(int i = 0; i < position && iter; i++){
+        iter++;
     }
     
-    return head->value;
+    return (iter++)->value;
 }
 
 template <typename T> T List<T>::get(Iterator<T> iterator) const{

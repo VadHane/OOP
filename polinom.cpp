@@ -66,12 +66,6 @@ void Polinom::input(){
     }
 }
 
-std::ostream& operator <<(std::ostream& out, const CNum &num){
-    if(num.imaginaryPart >= 0) out << "(" << num.realPart << " + " << num.imaginaryPart << "i)";
-    else out << "(" << num.realPart << " - " << num.imaginaryPart * - 1<< "i)";
-    return out;
-}
-
 void Polinom::add(CNum number){
     allCoeff->add(number);
     powers->add(power);
@@ -83,6 +77,11 @@ void add(Polinom &polinom, CNumber::CNum number, int power){
     polinom.powers->add(power);
 }
 
+void Polinom::add(CNumber::CNum number, int power){
+    allCoeff->add(number);
+    powers->add(power);
+}
+
 void Polinom::add(Polinom polinom){
     Iterator<CNum> iter(polinom.allCoeff->getFirstElement());
     Iterator<int> iterPow(polinom.powers->getFirstElement());
@@ -92,6 +91,8 @@ void Polinom::add(Polinom polinom){
     }
     
 }
+
+void add(CNumber::CNum number, int power);
 
 void Polinom::output() {
     if (allCoeff == nullptr || powers == nullptr) {

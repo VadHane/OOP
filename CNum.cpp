@@ -84,6 +84,16 @@ CNum CNum::operator *(double secondAddition) const{
     return *new CNum(realPart * secondAddition, imaginaryPart * secondAddition);
 }
 
+CNum CNum::operator /(const CNum num) const{
+    if (num.realPart == 0 && num.imaginaryPart == 0) return 0;
+    double div = num.realPart * num.realPart + num.imaginaryPart * num.imaginaryPart;
+    return *new CNum((realPart * num.realPart + imaginaryPart * num.imaginaryPart) / div, (realPart * num.imaginaryPart - imaginaryPart * num.realPart) / div * -1);
+}
+
+CNum CNum::operator /(double num) const{
+    return *this / CNum(num, 0);
+}
+
 bool CNum::operator ==(const CNum secondAddition) const{
     return realPart == secondAddition.realPart && imaginaryPart == secondAddition.imaginaryPart;
 }
