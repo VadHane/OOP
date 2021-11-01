@@ -4,6 +4,9 @@
 #include <iostream>
 #include "polinom.hpp"
 #include "CNum.hpp"
+#include "QString"
+
+using str = QString;
 
 using namespace std;
 
@@ -39,6 +42,7 @@ public:
     
     CNumber::CNum definiteIntegral(double, double) const;
     
+    str to_qstring() const;
     
     
     // power

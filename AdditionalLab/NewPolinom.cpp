@@ -1,6 +1,7 @@
 #include "NewPolinom.hpp"
 #include "polinom.hpp"
 #include "list.hpp"
+#include "QString"
 
 using namespace CNumber;
 using namespace SingleLinkList;
@@ -101,6 +102,28 @@ CNum NewPolinom::definiteIntegral(double bottom, double top) const{
 }
 
 
+QString NewPolinom::to_qstring() const{
+    char tmpStr[25];
+    QString *res = new QString();
+
+    res->append(name);
+    res->append(" = ");
+
+    Iterator<CNum> iter(allCoeff->getFirstElement());
+    Iterator<int> iterPow(powers->getFirstElement());
+
+    while (iter) {
+        CNum tmp = (iter++)->value;
+        int pow = (iterPow++)->value;
+
+        if(pow == 0) sprintf(tmpStr, "(%.2f + %.2f)", tmp.realPart, tmp.imaginaryPart);
+        else sprintf(tmpStr, "+ (%.2f + %.2f)%c^%d", tmp.realPart, tmp.imaginaryPart, symbolOfVar, pow);
+
+        res->append(tmpStr);
+    }
+
+    return *res;
+}
 
 
 

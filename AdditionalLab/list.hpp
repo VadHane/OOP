@@ -157,7 +157,7 @@ template <typename T> Iterator<T>::operator bool(){
 template <typename T> void List<T>::freeMemory(){
     if(head == nullptr) return;
     
-    Iterator<T> iter = *new Iterator<T>(head);
+    Iterator<T> iter(head);
     
     while (iter) {
         delete iter++;
@@ -175,7 +175,7 @@ template <typename T> List<T>::List(){
 
 template <typename T> List<T>::~List(){
     
-    Iterator<T> iter = *new Iterator<T>(head);
+    Iterator<T> iter(head);
     
     while(iter){
         delete iter++;
