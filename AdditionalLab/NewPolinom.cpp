@@ -116,8 +116,8 @@ QString NewPolinom::to_qstring() const{
         CNum tmp = (iter++)->value;
         int pow = (iterPow++)->value;
 
-        if(pow == 0) sprintf(tmpStr, "(%.2f + %.2f)", tmp.realPart, tmp.imaginaryPart);
-        else sprintf(tmpStr, "+ (%.2f + %.2f)%c^%d", tmp.realPart, tmp.imaginaryPart, symbolOfVar, pow);
+        if(pow == 0) sprintf(tmpStr, "(%.2f + %.2fi)", tmp.realPart, tmp.imaginaryPart);
+        else sprintf(tmpStr, "+ (%.2f + %.2fi)%c^%d", tmp.realPart, tmp.imaginaryPart, symbolOfVar, pow);
 
         res->append(tmpStr);
     }
