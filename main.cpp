@@ -3,8 +3,6 @@
 #include "Headers/THeximal.hpp"
 #include "Headers/TBinary.hpp"
 
-// вивід мінуса +
-// operator *=  
 
 void printAll(){
     int len;
@@ -52,6 +50,14 @@ int main(){
         THeximal test2(500);
         
         test += test2;
+        test.output();
+    }
+    
+    {
+        THeximal test(20);
+        TBinary test2(500);
+        
+        test *= test2;
         test.output();
     }
     
