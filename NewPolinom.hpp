@@ -18,6 +18,8 @@ public:
     
     NewPolinom(const NewPolinom&);
     
+    NewPolinom(const SingleLinkList::List<CNumber::CNum> list) : Polinom(list) {name = 'y'; symbolOfVar = 'x';};
+    
     NewPolinom(CNumber::CNum num1, CNumber::CNum num2) : Polinom(num1, num2) {name = 'y'; symbolOfVar = 'x';}
     
     ~NewPolinom();
